@@ -116,6 +116,11 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        if(Time.time > 5.0f)
+        {
+            Physics.gravity = new Vector3(0, m_Gravity, 0);
+        }
+
         // Update movement input
         UpdateMovementState();
 
