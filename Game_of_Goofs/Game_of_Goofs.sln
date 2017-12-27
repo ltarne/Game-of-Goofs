@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game_of_Goofs", "Game_of_Goofs.csproj", "{516AB2CC-1CD8-1028-5743-1AE80CE77B9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game_of_Goofs.Plugins", "Game_of_Goofs.Plugins.csproj", "{8450FA98-DA86-F243-C254-6F2E0B80FF33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game_of_Goofs.Editor", "Game_of_Goofs.Editor.csproj", "{53DA02C4-D3F4-3D13-CECE-88722AD20463}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{516AB2CC-1CD8-1028-5743-1AE80CE77B9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{516AB2CC-1CD8-1028-5743-1AE80CE77B9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{516AB2CC-1CD8-1028-5743-1AE80CE77B9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{516AB2CC-1CD8-1028-5743-1AE80CE77B9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8450FA98-DA86-F243-C254-6F2E0B80FF33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8450FA98-DA86-F243-C254-6F2E0B80FF33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8450FA98-DA86-F243-C254-6F2E0B80FF33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8450FA98-DA86-F243-C254-6F2E0B80FF33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53DA02C4-D3F4-3D13-CECE-88722AD20463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53DA02C4-D3F4-3D13-CECE-88722AD20463}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53DA02C4-D3F4-3D13-CECE-88722AD20463}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53DA02C4-D3F4-3D13-CECE-88722AD20463}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

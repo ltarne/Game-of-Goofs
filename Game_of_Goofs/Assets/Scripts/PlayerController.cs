@@ -30,6 +30,9 @@ public class PlayerController : MonoBehaviour
     // The charactercontroller of the player
     CharacterController m_CharacterController;
 
+    //The rigid body of the player
+    Rigidbody m_RigidBody;
+
     // The current movement direction in x & z.
     Vector3 m_MovementDirection = Vector3.zero;
 
@@ -57,6 +60,8 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         m_CharacterController = GetComponent<CharacterController>();
+        m_RigidBody = GetComponent<Rigidbody>();
+        Physics.gravity = new Vector3(0, -m_Gravity, 0);
     }
 
     // Use this for initialization
@@ -67,18 +72,19 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        m_VerticalSpeed = Mathf.Sqrt(m_JumpHeight * m_Gravity);
+        //m_VerticalSpeed = Mathf.Sqrt(m_JumpHeight * m_Gravity);
+        m_RigidBody.AddForce(Vector3.up * Mathf.Sqrt(m_JumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
     }
 
-    void ApplyGravity()
-    {
-        // Apply gravity
-        m_VerticalSpeed -= m_Gravity * Time.deltaTime;
+    //void ApplyGravity()
+    //{
+    //    // Apply gravity
+    //    m_VerticalSpeed -= m_Gravity * Time.deltaTime;
 
-        // Make sure we don't fall any faster than m_MaxFallSpeed.
-        m_VerticalSpeed = Mathf.Max(m_VerticalSpeed, -m_MaxFallSpeed);
-        m_VerticalSpeed = Mathf.Min(m_VerticalSpeed, m_MaxFallSpeed);
-    }
+    //    // Make sure we don't fall any faster than m_MaxFallSpeed.
+    //    m_VerticalSpeed = Mathf.Max(m_VerticalSpeed, -m_MaxFallSpeed);
+    //    m_VerticalSpeed = Mathf.Min(m_VerticalSpeed, m_MaxFallSpeed);
+    //}
 
     void UpdateMovementState()
     {
@@ -88,6 +94,7 @@ public class PlayerController : MonoBehaviour
 
         m_MovementDirection = new Vector3(horizontalInput, 0, verticalInput);
         m_MovementSpeed = m_RunSpeed;
+ 
     }
 
     void UpdateJumpState()
@@ -114,27 +121,35 @@ public class PlayerController : MonoBehaviour
 
         // Update jumping input and apply gravity
         UpdateJumpState();
-        ApplyGravity();
+        //ApplyGravity();
+
+
+        //m_RigidBody.AddForce((m_MovementDirection * m_MovementSpeed + new Vector3(0, m_VerticalSpeed, 0)) /** Time.deltaTime*/);
 
         // Calculate actual motion
-        m_CurrentMovementOffset = (m_MovementDirection * m_MovementSpeed + new Vector3(0, m_VerticalSpeed, 0)) * Time.deltaTime;
+        m_CurrentMovementOffset = (m_MovementDirection * m_MovementSpeed) * Time.deltaTime;
 
         // Move character
-        m_CharacterController.Move(m_CurrentMovementOffset);
+        //m_CharacterController.Move(m_CurrentMovementOffset);
 
         // Rotate the character in movement direction
-        if(m_MovementDirection != Vector3.zero)
+        if (m_MovementDirection != Vector3.zero)
         {
             RotateCharacter(m_MovementDirection);
         }
     }
 
+    void FixedUpdate()
+    {
+        m_RigidBody.MovePosition(m_RigidBody.position + m_CurrentMovementOffset);
+    }
+
     void RotateCharacter(Vector3 movementDirection)
     {
         Quaternion lookRotation = Quaternion.LookRotation(movementDirection);
-        if (transform.rotation != lookRotation)
+        if (m_RigidBody.rotation != lookRotation)
         {
-            transform.rotation = lookRotation;
+            m_RigidBody.rotation = lookRotation;
         }
     }
 
@@ -170,7 +185,22 @@ public class PlayerController : MonoBehaviour
     void Respawn()
     {
         m_IsAlive = true;
-        transform.position = m_SpawningPosition;
-        transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
+        m_RigidBody.position = m_SpawningPosition;
+        m_RigidBody.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
     }
+
+    //void OnControllerColliderHit(ControllerColliderHit hit)
+    //{
+    //    Rigidbody body = hit.collider.attachedRigidbody;
+    //    if (body == null)
+    //        return;
+
+    //    if (hit.moveDirection.y < -0.3F)
+    //        return;
+
+    //    Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+    //    //m_MovementDirection = pushDir;
+    //    //m_MovementSpeed = body.velocity.magnitude;
+    //    body.velocity = pushDir * 0.2f;
+    //}
 }
