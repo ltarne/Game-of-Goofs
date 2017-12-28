@@ -156,6 +156,12 @@ public class PlayerController : MonoBehaviour
         {
             m_RigidBody.rotation = lookRotation;
         }
+
+        if(Time.time > 5.0f)
+        {
+            Vector3 upsideDownRotation = new Vector3(m_RigidBody.rotation.eulerAngles.x + 180, m_RigidBody.rotation.eulerAngles.y, m_RigidBody.rotation.eulerAngles.z);
+            m_RigidBody.rotation = Quaternion.Euler(upsideDownRotation); 
+        }
     }
 
     public int GetPlayerNum()
