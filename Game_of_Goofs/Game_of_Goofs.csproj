@@ -272,8 +272,11 @@
     <Compile Include="Assets\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\DeathTrigger.cs" />
+    <Compile Include="Assets\Scripts\EventManager.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
+    <Compile Include="Assets\Scripts\WorldFlipEvent.cs" />
+    <Compile Include="Assets\Scripts\WorldFlipTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />

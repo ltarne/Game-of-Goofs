@@ -14,8 +14,8 @@ public class PlayerController : MonoBehaviour
     float m_Gravity = 60.0f;
 
     // The maximum speed the character can fall
-    [SerializeField]
-    float m_MaxFallSpeed = 20.0f;
+    //[SerializeField]
+    //float m_MaxFallSpeed = 20.0f;
 
     // The character's jump height
     [SerializeField]
@@ -27,8 +27,6 @@ public class PlayerController : MonoBehaviour
 
     // --------------------------------------------------------------
 
-    // The charactercontroller of the player
-    CharacterController m_CharacterController;
 
     //The rigid body of the player
     Rigidbody m_RigidBody;
@@ -40,7 +38,7 @@ public class PlayerController : MonoBehaviour
     float m_MovementSpeed = 0.0f;
 
     // The current vertical / falling speed
-    float m_VerticalSpeed = 0.0f;
+    //float m_VerticalSpeed = 0.0f;
 
     // The current movement offset
     Vector3 m_CurrentMovementOffset = Vector3.zero;
@@ -59,7 +57,6 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        m_CharacterController = GetComponent<CharacterController>();
         m_RigidBody = GetComponent<Rigidbody>();
         Physics.gravity = new Vector3(0, -m_Gravity, 0);
     }
@@ -76,15 +73,6 @@ public class PlayerController : MonoBehaviour
         m_RigidBody.AddForce(Vector3.up * Mathf.Sqrt(m_JumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
     }
 
-    //void ApplyGravity()
-    //{
-    //    // Apply gravity
-    //    m_VerticalSpeed -= m_Gravity * Time.deltaTime;
-
-    //    // Make sure we don't fall any faster than m_MaxFallSpeed.
-    //    m_VerticalSpeed = Mathf.Max(m_VerticalSpeed, -m_MaxFallSpeed);
-    //    m_VerticalSpeed = Mathf.Min(m_VerticalSpeed, m_MaxFallSpeed);
-    //}
 
     void UpdateMovementState()
     {
@@ -100,10 +88,10 @@ public class PlayerController : MonoBehaviour
     void UpdateJumpState()
     {
         // Character can jump when standing on the ground
-        if (Input.GetButtonDown("Jump" + m_PlayerInputString) && m_CharacterController.isGrounded)
-        {
-            Jump();
-        }
+        //if (Input.GetButtonDown("Jump" + m_PlayerInputString) && m_RigidBody.isGrounded)
+        //{
+        //    Jump();
+        //}
     }
 
     // Update is called once per frame
@@ -116,17 +104,11 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if(Time.time > 5.0f)
-        {
-            Physics.gravity = new Vector3(0, m_Gravity, 0);
-        }
-
         // Update movement input
         UpdateMovementState();
 
         // Update jumping input and apply gravity
         UpdateJumpState();
-        //ApplyGravity();
 
 
         //m_RigidBody.AddForce((m_MovementDirection * m_MovementSpeed + new Vector3(0, m_VerticalSpeed, 0)) /** Time.deltaTime*/);
@@ -134,8 +116,6 @@ public class PlayerController : MonoBehaviour
         // Calculate actual motion
         m_CurrentMovementOffset = (m_MovementDirection * m_MovementSpeed) * Time.deltaTime;
 
-        // Move character
-        //m_CharacterController.Move(m_CurrentMovementOffset);
 
         // Rotate the character in movement direction
         if (m_MovementDirection != Vector3.zero)
@@ -200,18 +180,5 @@ public class PlayerController : MonoBehaviour
         m_RigidBody.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
     }
 
-    //void OnControllerColliderHit(ControllerColliderHit hit)
-    //{
-    //    Rigidbody body = hit.collider.attachedRigidbody;
-    //    if (body == null)
-    //        return;
-
-    //    if (hit.moveDirection.y < -0.3F)
-    //        return;
-
-    //    Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
-    //    //m_MovementDirection = pushDir;
-    //    //m_MovementSpeed = body.velocity.magnitude;
-    //    body.velocity = pushDir * 0.2f;
-    //}
+    
 }

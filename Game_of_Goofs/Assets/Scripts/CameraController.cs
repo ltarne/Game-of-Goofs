@@ -23,34 +23,44 @@ public class CameraController : MonoBehaviour {
 
     //---------------------------------------------------------------
 
-    bool m_Flip = false;
+    //bool m_Flip = false;
+
+    Vector3 m_CurrentRotation;
 
     //---------------------------------------------------------------
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         transform.rotation = Quaternion.Euler(m_PrimaryRotation);
+        m_CurrentRotation = m_PrimaryRotation;
     }
 	
 	// Update is called once per frame
 	void Update () {
         Vector3 currentRotation = transform.rotation.eulerAngles;
 
-        if (Time.time > m_FlipTime)
-        {
-            m_Flip = true;
-        }
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(m_CurrentRotation), m_FlipSpeed * Time.deltaTime);
 
-       //Flip upside down
-        if (m_Flip)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(m_SecondaryRotation), m_FlipSpeed * Time.deltaTime);
-        }
-        //Flippin right way up
-        else if (!m_Flip)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(m_PrimaryRotation), m_FlipSpeed * Time.deltaTime);
-        }
+        //if (Time.time > m_FlipTime)
+        //{
+        //    m_Flip = true;
+        //}
+
+        ////Flip upside down
+        // if (m_Flip)
+        // {
+
+        // }
+        // //Flippin right way up
+        // else if (!m_Flip)
+        // {
+        //     transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(m_PrimaryRotation), m_FlipSpeed * Time.deltaTime);
+        // }
+    }
+
+    public void Flip()
+    {
+        m_CurrentRotation = (m_CurrentRotation == m_PrimaryRotation) ? m_SecondaryRotation : m_PrimaryRotation;
     }
 
 }
