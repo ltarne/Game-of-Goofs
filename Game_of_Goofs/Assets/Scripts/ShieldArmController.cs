@@ -26,14 +26,15 @@ public class ShieldArmController : MonoBehaviour {
 
         if(m_ShieldUp)
         {
-            if(m_Counter < -m_RaisedAngle)
+            Vector3 axis = transform.TransformDirection(Vector3.left);
+            if (m_Counter < -m_RaisedAngle)
             {
-                transform.RotateAround(transform.parent.position, Vector3.left, -m_RaiseSpeed);
+                transform.RotateAround(transform.parent.position, axis, -m_RaiseSpeed);
                 m_Counter += 5;
             }
             else if(m_Counter >= -m_RaisedAngle && m_Counter <= 2 * -m_RaisedAngle)
             {
-                transform.RotateAround(transform.parent.position, Vector3.left, m_RaiseSpeed);
+                transform.RotateAround(transform.parent.position, axis, m_RaiseSpeed);
                 m_Counter += 5;
             }
             else

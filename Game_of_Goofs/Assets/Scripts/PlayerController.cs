@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour
             m_RigidBody.rotation = lookRotation;
         }
 
-        if(Time.time > 5.0f)
+        if(Physics.gravity.y > 0)
         {
             Vector3 upsideDownRotation = new Vector3(m_RigidBody.rotation.eulerAngles.x + 180, m_RigidBody.rotation.eulerAngles.y, m_RigidBody.rotation.eulerAngles.z);
             m_RigidBody.rotation = Quaternion.Euler(upsideDownRotation); 
