@@ -16,6 +16,12 @@ public class WeaponArmController : MonoBehaviour {
     [SerializeField]
     public float m_Range = 3.0f;
 
+    [SerializeField]
+    public float m_PushPower = 200.0f;
+
+    [SerializeField]
+    public string m_ActivateButton = "e";
+
     private bool m_Attack = false;
     private bool m_FinishAttack = false;
     private float m_Counter = 0;
@@ -25,20 +31,20 @@ public class WeaponArmController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //Start of attack
-        if (Input.GetKeyDown("e"))
+        if (Input.GetKeyDown(m_ActivateButton))
         {
             m_Attack = true;
             m_Charge = 0;
         }
         //Charge weapon
-        if(Input.GetKey("e"))
+        if(Input.GetKey(m_ActivateButton))
         {
             if(m_Charge < m_MaxCharge)
             {
                 m_Charge++;
             }
         }
-        if(!Input.GetKey("e") && m_Attack)
+        if(!Input.GetKey(m_ActivateButton) && m_Attack)
         {
             m_FinishAttack = true;
         }
@@ -85,7 +91,7 @@ public class WeaponArmController : MonoBehaviour {
             //Check if in arc
             Vector3 playersBodyPosition = transform.parent.parent.position;
             Vector3 playerToEnemy = (enemyPlayer.transform.position - playersBodyPosition);
-            Vector3 playerToEdge = (transform.parent.parent.forward * m_Range) - playersBodyPosition;
+            Vector3 playerToEdge = (transform.parent.parent.forward * m_Range);
             if (playerToEnemy.sqrMagnitude < m_Range * m_Range)
             {
                 //              /dot(a,b)\
@@ -96,7 +102,7 @@ public class WeaponArmController : MonoBehaviour {
                 if(angle > -20 && angle < 20)
                 {
                     //In arc
-                    enemyPlayer.GetComponent<Rigidbody>().AddForce(m_Charge * 200 * Vector3.Normalize(playerToEnemy));
+                    enemyPlayer.GetComponent<Rigidbody>().AddForce(m_Charge * m_PushPower * Vector3.Normalize(playerToEnemy));
                 }
             }
         }
