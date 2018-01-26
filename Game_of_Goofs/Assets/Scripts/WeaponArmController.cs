@@ -27,6 +27,21 @@ public class WeaponArmController : MonoBehaviour {
     private float m_Counter = 0;
     private int m_Charge = 0;
 
+
+    public bool IsHitting()
+    {
+        return m_FinishAttack;
+    }
+
+    public float GetPushStrength()
+    {
+        return m_Charge * m_PushPower;
+    }
+
+    public void Deflected()
+    {
+        m_Charge = 0;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -68,6 +83,8 @@ public class WeaponArmController : MonoBehaviour {
                 m_Attack = false;
                 m_FinishAttack = false;
                 Attack();
+                //Source: https://freesound.org/people/tec%20studios/sounds/106861/
+                GetComponent<AudioSource>().Play();
             }
 
         }

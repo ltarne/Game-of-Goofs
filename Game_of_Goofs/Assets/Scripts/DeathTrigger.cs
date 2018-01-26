@@ -19,6 +19,7 @@ public class DeathTrigger : MonoBehaviour
             PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
             if(playerController)
             {
+                //other.gameObject.GetComponent<Collider>().enabled = false;
                 // Kill the player
                 playerController.Die();
 

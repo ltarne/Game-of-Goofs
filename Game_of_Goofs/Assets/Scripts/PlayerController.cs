@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
     //The rigid body of the player
     Rigidbody m_RigidBody;
 
+    BoxCollider m_BoxCollider;
+
     // The current movement direction in x & z.
     Vector3 m_MovementDirection = Vector3.zero;
 
@@ -59,6 +61,7 @@ public class PlayerController : MonoBehaviour
     {
         m_RigidBody = GetComponent<Rigidbody>();
         Physics.gravity = new Vector3(0, -m_Gravity, 0);
+        m_BoxCollider = GetComponent<BoxCollider>();
     }
 
     // Use this for initialization
@@ -160,8 +163,10 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+        m_BoxCollider.enabled = false;
         m_IsAlive = false;
         m_RespawnTime = MAX_RESPAWN_TIME;
+
     }
 
     void UpdateRespawnTime()
@@ -175,6 +180,8 @@ public class PlayerController : MonoBehaviour
 
     void Respawn()
     {
+        m_BoxCollider.enabled = true;
+        
         m_IsAlive = true;
         m_RigidBody.position = m_SpawningPosition;
         m_RigidBody.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);

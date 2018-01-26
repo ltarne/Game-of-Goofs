@@ -13,6 +13,9 @@ public class ShieldArmController : MonoBehaviour {
     public float m_RaiseSpeed = 5.0f;
 
     [SerializeField]
+    public float m_ShieldRange = 3.0f;
+
+    [SerializeField]
     public string m_ActivateButton = "q";
 
     private float m_Counter = 0;
@@ -29,6 +32,9 @@ public class ShieldArmController : MonoBehaviour {
 
         if(m_ShieldUp)
         {
+            Defend();
+
+
             Vector3 axis = transform.TransformDirection(Vector3.left);
             if (m_Counter < -m_RaisedAngle)
             {
@@ -49,5 +55,36 @@ public class ShieldArmController : MonoBehaviour {
         }
 		
 	}
+
+    void Defend()
+    {
+        //Locate Enemy Player
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject enemyPlayer = null;
+        foreach (GameObject player in players)
+        {
+            if (player.transform != transform.parent.parent)
+            {
+                enemyPlayer = player;
+            }
+        }
+        Vector3 playerToEnemy = enemyPlayer.transform.position - transform.parent.parent.position;
+        if(playerToEnemy.magnitude <= m_ShieldRange)
+        {
+            WeaponArmController enemyController = enemyPlayer.GetComponent<WeaponArmController>();
+
+
+            if (enemyController.IsHitting())
+            {
+                enemyPlayer.GetComponent<Rigidbody>().AddForce(enemyController.GetPushStrength() * Vector3.Normalize(playerToEnemy));
+                enemyController.Deflected();
+                //Source: https://freesound.org/people/kingof_thelab/sounds/340239/
+                GetComponent<AudioSource>().Play();
+            }
+        }
+
+       
+
+    }
 
 }
