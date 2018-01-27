@@ -187,5 +187,22 @@ public class PlayerController : MonoBehaviour
         m_RigidBody.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
     }
 
+    public GameObject FindEnemyPlayer()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        //GameObject enemyPlayer = null;
+        foreach (GameObject player in players)
+        {
+            if (player.name != this.name)
+            {
+                return player;  
+            }
+        }
+        //Assuming only two players
+        //enemyPlayer = (players[0] == this) ? players[1] : players[0];
+
+        return null;
+    }
+
     
 }

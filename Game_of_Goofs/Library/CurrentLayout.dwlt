@@ -109,7 +109,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 492}
   m_MaxSize: {x: 14004, y: 14042}
   vertical: 0
-  controlID: 123
+  controlID: 99
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 492}
   m_MaxSize: {x: 10002, y: 14042}
   vertical: 1
-  controlID: 26
+  controlID: 113
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 221}
   m_MaxSize: {x: 8006, y: 4021}
   vertical: 0
-  controlID: 27
+  controlID: 114
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -393,9 +393,9 @@ MonoBehaviour:
     height: 479
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 60320000
-    m_LastClickedID: 12896
-    m_ExpandedIDs: 8cfbffff000000001e320000b4320000d8320000e63200000c33000010330000a0330000a6330000
+    m_SelectedIDs: 36320000
+    m_LastClickedID: 12854
+    m_ExpandedIDs: a6fbffff00000000c4320000ea320000f83200001e33000022330000a2330000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -477,7 +477,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.2532663, y: 0.073624164, z: -0.019334074, w: -0.9643972}
     speed: 2
-    m_Value: {x: -0.2532663, y: 0.073624164, z: -0.019334074, w: -0.9643972}
+    m_Value: {x: -0.2532663, y: 0.073624164, z: -0.019334074, w: -0.96439713}
   m_Size:
     m_Target: 3.825957
     speed: 2
@@ -557,19 +557,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets
+    - Assets/Scripts
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets
+  - Assets/Scripts
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Luke\Documents\SearchForStar\Work\Game_of_Goofs
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 35}
-    m_SelectedIDs: fe280000
-    m_LastClickedID: 10494
-    m_ExpandedIDs: 00000000fe280000882c0000d62c00004c2d0000b630000000ca9a3bffffff7f
+    m_SelectedIDs: 30310000
+    m_LastClickedID: 12592
+    m_ExpandedIDs: 00000000f6280000902c0000e62c00005c2d0000c830000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -597,7 +597,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000fe280000882c0000d62c00004c2d0000b6300000
+    m_ExpandedIDs: 00000000f6280000902c0000e62c00005c2d0000c8300000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -624,7 +624,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c62300008206000000000000802d00006679feff743afeff7232000006f0fcff8231ffff3e430000
     m_RenameOverlay:
       m_UserAcceptedRename: 0

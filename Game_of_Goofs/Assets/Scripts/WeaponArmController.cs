@@ -14,6 +14,9 @@ public class WeaponArmController : MonoBehaviour {
     public int m_MaxCharge = 200;
 
     [SerializeField]
+    public float m_SwingAngle = 20.0f;
+
+    [SerializeField]
     public float m_Range = 3.0f;
 
     [SerializeField]
@@ -26,6 +29,15 @@ public class WeaponArmController : MonoBehaviour {
     private bool m_FinishAttack = false;
     private float m_Counter = 0;
     private int m_Charge = 0;
+
+    private GameObject m_Player;
+    private GameObject m_EnemyPlayer;
+
+    void Start()
+    {
+        m_Player = transform.parent.parent.gameObject;
+        m_EnemyPlayer = m_Player.GetComponent<PlayerController>().FindEnemyPlayer();
+    }
 
 
     public bool IsHitting()
@@ -70,57 +82,62 @@ public class WeaponArmController : MonoBehaviour {
             if (m_Counter < -m_RaisedAngle)
             {
                 transform.RotateAround(transform.parent.position, axis, m_RaiseSpeed);
-                m_Counter += 5;
+                m_Counter += m_RaiseSpeed;
             }
-            else if (m_Counter >= -m_RaisedAngle && m_Counter <= (2 * -m_RaisedAngle) && m_FinishAttack)
+            else if (m_Counter >= -m_RaisedAngle && m_Counter < (2 * -m_RaisedAngle) && m_FinishAttack)
             {
                 transform.RotateAround(transform.parent.position, axis, -m_RaiseSpeed);
-                m_Counter += 5;
+                m_Counter += m_RaiseSpeed;
             }
-            else if(m_Counter == (2 * -m_RaisedAngle)+5 && m_FinishAttack)
+            else if(m_Counter == (2 * -m_RaisedAngle) && m_FinishAttack)
             {
                 m_Counter = 0;
                 m_Attack = false;
                 m_FinishAttack = false;
-                Attack();
+                ResolveCombat();
                 //Source: https://freesound.org/people/tec%20studios/sounds/106861/
-                GetComponent<AudioSource>().Play();
+                
             }
 
         }
     }
 
-    void Attack()
+    void ResolveCombat()
     {
-        //Locate Enemy Player
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        GameObject enemyPlayer = null;
-        foreach(GameObject player in players)
+
+        if (m_EnemyPlayer)
         {
-            if(player.transform != transform.parent.parent)
+
+            if(m_EnemyPlayer.GetComponentInChildren<ShieldArmController>().IsDefending())
             {
-                enemyPlayer = player;
+                m_EnemyPlayer.GetComponentInChildren<ShieldArmController>().Defend();
+            }
+            else
+            {
+                Attack();
             }
         }
+    }
 
-        if(enemyPlayer)
+    void Attack()
+    {
+
+        //Check if in arc
+        Vector3 playersBodyPosition = m_Player.transform.position;
+        Vector3 playerToEnemy = (m_EnemyPlayer.transform.position - playersBodyPosition);
+        Vector3 playerToEdge = (transform.parent.parent.forward * m_Range);
+        if (playerToEnemy.sqrMagnitude < m_Range * m_Range)
         {
-            //Check if in arc
-            Vector3 playersBodyPosition = transform.parent.parent.position;
-            Vector3 playerToEnemy = (enemyPlayer.transform.position - playersBodyPosition);
-            Vector3 playerToEdge = (transform.parent.parent.forward * m_Range);
-            if (playerToEnemy.sqrMagnitude < m_Range * m_Range)
+            //              /dot(a,b)\
+            //Angle = arccos|--------|
+            //              \|a|.|b| /
+            float angle = Mathf.Acos(Vector3.Dot(playerToEnemy, playerToEdge) / (playerToEnemy.magnitude * playerToEdge.magnitude));
+            angle *= Mathf.Rad2Deg;
+            if(angle > -m_SwingAngle && angle < m_SwingAngle)
             {
-                //              /dot(a,b)\
-                //Angle = arccos|--------|
-                //              \|a|.|b| /
-                float angle = Mathf.Acos(Vector3.Dot(playerToEnemy, playerToEdge) / (playerToEnemy.magnitude * playerToEdge.magnitude));
-                angle *= Mathf.Rad2Deg;
-                if(angle > -20 && angle < 20)
-                {
-                    //In arc
-                    enemyPlayer.GetComponent<Rigidbody>().AddForce(m_Charge * m_PushPower * Vector3.Normalize(playerToEnemy));
-                }
+                //In arc
+                m_EnemyPlayer.GetComponent<Rigidbody>().AddForce(m_Charge * m_PushPower * Vector3.Normalize(playerToEnemy));
+                GetComponent<AudioSource>().Play();
             }
         }
        

@@ -20,10 +20,15 @@ public class ShieldArmController : MonoBehaviour {
 
     private float m_Counter = 0;
     private bool m_ShieldUp = false;
+    private GameObject m_Player;
 
-	
-	// Update is called once per frame
-	void Update () {
+    void Start()
+    {
+        m_Player = transform.parent.parent.gameObject;
+    }
+
+    // Update is called once per frame
+    void Update () {
 
         if(Input.GetKeyDown(m_ActivateButton))
         {
@@ -32,19 +37,19 @@ public class ShieldArmController : MonoBehaviour {
 
         if(m_ShieldUp)
         {
-            Defend();
+            //Defend();
 
 
             Vector3 axis = transform.TransformDirection(Vector3.left);
             if (m_Counter < -m_RaisedAngle)
             {
                 transform.RotateAround(transform.parent.position, axis, m_RaiseSpeed);
-                m_Counter += 5;
+                m_Counter += m_RaiseSpeed;
             }
-            else if(m_Counter >= -m_RaisedAngle && m_Counter <= 2 * -m_RaisedAngle)
+            else if(m_Counter >= -m_RaisedAngle && m_Counter < (2 * -m_RaisedAngle))
             {
                 transform.RotateAround(transform.parent.position, axis, -m_RaiseSpeed);
-                m_Counter += 5;
+                m_Counter += m_RaiseSpeed;
             }
             else
             {
@@ -56,35 +61,36 @@ public class ShieldArmController : MonoBehaviour {
 		
 	}
 
-    void Defend()
+    public void Defend()
     {
-        //Locate Enemy Player
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        GameObject enemyPlayer = null;
-        foreach (GameObject player in players)
+        //Locate enemy player
+        GameObject enemyPlayer = m_Player.GetComponent<PlayerController>().FindEnemyPlayer();
+
+        if (enemyPlayer)
         {
-            if (player.transform != transform.parent.parent)
+            Vector3 playerToEnemy = enemyPlayer.transform.position - m_Player.transform.position;
+            if (playerToEnemy.magnitude <= m_ShieldRange)
             {
-                enemyPlayer = player;
+                WeaponArmController enemyController = enemyPlayer.GetComponentInChildren<WeaponArmController>();
+
+
+                //if (enemyController.IsHitting())
+                //{
+                Rigidbody body = enemyPlayer.GetComponent<Rigidbody>();
+                body.AddForce(enemyController.GetPushStrength() * Vector3.Normalize(playerToEnemy));
+                    //enemyController.Deflected();
+                    //Source: https://freesound.org/people/kingof_thelab/sounds/340239/
+                    GetComponent<AudioSource>().Play();
+                //}
             }
         }
-        Vector3 playerToEnemy = enemyPlayer.transform.position - transform.parent.parent.position;
-        if(playerToEnemy.magnitude <= m_ShieldRange)
-        {
-            WeaponArmController enemyController = enemyPlayer.GetComponent<WeaponArmController>();
+ 
 
+    }
 
-            if (enemyController.IsHitting())
-            {
-                enemyPlayer.GetComponent<Rigidbody>().AddForce(enemyController.GetPushStrength() * Vector3.Normalize(playerToEnemy));
-                enemyController.Deflected();
-                //Source: https://freesound.org/people/kingof_thelab/sounds/340239/
-                GetComponent<AudioSource>().Play();
-            }
-        }
-
-       
-
+    public bool IsDefending()
+    {
+        return m_ShieldUp;
     }
 
 }
